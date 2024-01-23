@@ -1,10 +1,10 @@
 # Switch-Craft Plugin
 alias cdx="switch_craft 'Clean Environment'"
 
-# Use existing projects dir from env var if set, otherwise default to ~/Projects
-projects_dir=${SWITCH_CRAFT_PROJECTS_DIR:-~/Projects}
-
 switch_craft() {
+    # Use existing projects dir from env var if set, otherwise default to ~/Projects
+    projects_dir=${SWITCH_CRAFT_PROJECTS_DIR:-~/Projects}
+
     project_name_display=$1
     project_name=$2
     kubectx=${3-'false'}
