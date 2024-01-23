@@ -53,8 +53,8 @@ environment variable.
 
 ### Kubectx
 
-If you have [kubectx]() installed, you can set the third argument to the name of the context you want to switch to a
-context name. You can list the available contexts with:
+If you have [kubectx](https://github.com/ahmetb/kubectx/) installed, you can set the third argument to the name of the
+context you want to switch to a context name. You can list the available contexts with:
 
 ```sh
 kubectx
@@ -62,8 +62,8 @@ kubectx
 
 ### Gcloud
 
-If you have [gcloud]() installed, you can set the fourth argument to the name of the gcloud configuration
-you want to switch to. You can list the available configurations with:
+If you have [gcloud](https://cloud.google.com/sdk/gcloud) installed, you can set the fourth argument to the name of the
+gcloud configuration you want to switch to. You can list the available configurations with:
 
 ```sh
 gcloud config configurations list
@@ -72,13 +72,15 @@ gcloud config configurations list
 ### Virtualenv
 
 If you have a virtualenv in your project, you can set the fifth argument to the relative path within the projects dir to
-automatically
-activate the virtualenv that is a sibling of the current project. This could be useful for running python applications
-while in a different directory.
+automatically activate the virtualenv that is a sibling of the current project. This could be useful for running python
+applications while in a different directory.
+
+This requires the zsh plugin called `autoswitch_virtualenv` which is
+found [here](https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv).
 
 ### AWS
 
-If you have [aws]() installed, you can set the sixth argument to the name of the aws profile
+If you have [aws](https://aws.amazon.com/cli/) installed, you can set the sixth argument to the name of the aws profile
 you want to switch to. You can list the available profiles with:
 
 ```sh
@@ -87,8 +89,8 @@ aws configure list-profiles
 
 ### Azure
 
-If you have [az]() installed, you can set the seventh argument to the name of the azure profile
-you want to switch to. You can list the available profiles with:
+If you have [az](https://learn.microsoft.com/en-us/cli/azure/) installed, you can set the seventh argument to the name
+of the azure profile you want to switch to. You can list the available profiles with:
 
 ```sh
 az account list --output table
