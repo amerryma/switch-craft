@@ -1,4 +1,5 @@
 # switch-craft
+
 Effortlessly navigate between projects with a single command.
 
 ## Oh My Zsh
@@ -37,5 +38,59 @@ export SWITCH_CRAFT_PROJECTS_DIR=~/my-projects
 # or per alias
 
 alias cdp='SWITCH_CRAFT_PROJECTS_DIR=~/my-projects switch-craft <..args>'
+```
+
+## Supported Arguments
+
+### Project Display Name
+
+This is the name that will be displayed in the prompt. It can be anything you want.
+
+### Project Name
+
+This is the name of the directory that contains the project. It is relative to the `SWITCH_CRAFT_PROJECTS_DIR`
+environment variable.
+
+### Kubectx
+
+If you have [kubectx]() installed, you can set the third argument to the name of the context you want to switch to a
+context name. You can list the available contexts with:
+
+```sh
+kubectx
+```
+
+### Gcloud
+
+If you have [gcloud]() installed, you can set the fourth argument to the name of the gcloud configuration
+you want to switch to. You can list the available configurations with:
+
+```sh
+gcloud config configurations list
+```
+
+### Virtualenv
+
+If you have a virtualenv in your project, you can set the fifth argument to the relative path within the projects dir to
+automatically
+activate the virtualenv that is a sibling of the current project. This could be useful for running python applications
+while in a different directory.
+
+### AWS
+
+If you have [aws]() installed, you can set the sixth argument to the name of the aws profile
+you want to switch to. You can list the available profiles with:
+
+```sh
+aws configure list-profiles
+```
+
+### Azure
+
+If you have [az]() installed, you can set the seventh argument to the name of the azure profile
+you want to switch to. You can list the available profiles with:
+
+```sh
+az account list --output table
 ```
 
