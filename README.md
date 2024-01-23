@@ -27,7 +27,7 @@ The arguments are positional. Use quotes if you need to include spaces. If you n
 to skip an argument, use "false".
 
 ```sh
-alias cdp='switch-craft <project-display-name> <project-name> <kubectx> <gcloud> <enable-venv> <aws> <azure>'
+alias cdp='switch_craft <project-display-name> <project-name> <kubectx> <gcloud> <enable-venv> <aws> <azure>'
 ```
 
 To switch the default project dir of `~/Projects`, you can set the `SWITCH_CRAFT_PROJECTS_DIR` environment variable.
@@ -37,7 +37,7 @@ export SWITCH_CRAFT_PROJECTS_DIR=~/my-projects
 
 # or per alias
 
-alias cdp='SWITCH_CRAFT_PROJECTS_DIR=~/my-projects switch-craft <..args>'
+alias cdp='SWITCH_CRAFT_PROJECTS_DIR=~/my-projects switch_craft <..args>'
 ```
 
 ## Supported Arguments
