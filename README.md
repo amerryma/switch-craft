@@ -96,3 +96,21 @@ of the azure profile you want to switch to. You can list the available profiles 
 az account list --output table
 ```
 
+## Additional Dependencies
+
+### figlet & lolcat
+
+For more fun, you can install [figlet](http://www.figlet.org/) and [lolcat](https://github.com/busyloop/lolcat)
+
+You will need to install `JS Stick Letters` font.
+
+```sh
+sudo curl -o /usr/share/figlet/JS\ Stick\ Letters.flf https://raw.githubusercontent.com/xero/figlet-fonts/master/JS%20Stick%20Letters.flf
+```
+
+![clean](img/clean.png)
+
+### Spaceship Prompt
+
+This plugin works well with the [Spaceship Prompt](https://github.com/spaceship-prompt/spaceship-prompt)
+as it shows the different components in the prompt.
