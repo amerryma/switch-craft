@@ -2,6 +2,8 @@
 
 Effortlessly navigate between projects with a single command.
 
+![demo](img/demo.png)
+
 ## Oh My Zsh
 
 1. Clone this repository into `$ZSH_CUSTOM/plugins` (by default `~/.oh-my-zsh/custom/plugins`)
