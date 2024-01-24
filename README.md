@@ -2,7 +2,7 @@
 
 Effortlessly navigate between projects with a single command.
 
-![demo](img/demo.png)
+![demo](img/demo.gif)
 
 ## Oh My Zsh
 
