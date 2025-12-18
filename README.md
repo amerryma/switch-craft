@@ -1,118 +1,193 @@
 # switch-craft
 
-Effortlessly navigate between projects with a single command.
+A cross-shell project switcher with environment management. Effortlessly navigate between projects with a single command.
 
 ![demo](img/demo.gif)
 
-## Oh My Zsh
+## Features
 
-1. Clone this repository into `$ZSH_CUSTOM/plugins` (by default `~/.oh-my-zsh/custom/plugins`)
+- **Fuzzy project search** - Find projects quickly with fuzzy matching
+- **Environment management** - Automatically set kubectx, gcloud, AWS profiles, and more
+- **Cross-shell support** - Works with Bash, Zsh, Fish, and PowerShell
+- **Interactive selector** - Built-in fuzzy finder for project selection
+- **Colorful output** - Rainbow ASCII banners and colored info tables
+- **Command preview** - Press Ctrl+O to preview commands before switching
+- **Reset command** - Clear all environment settings with one command
 
-    ```sh
-    git clone https://github.com/amerryma/switch-craft ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/switch-craft
-    ```
+## Installation
 
-2. Add the plugin to the list of plugins for Oh My Zsh to load (inside `~/.zshrc`):
+### Prerequisites
 
-    ```sh
-    plugins=( 
-        # other plugins...
-        switch-craft
-    )
-    ```
+- [Bun](https://bun.sh/) runtime
 
-3. Start a new terminal session.
+### Quick Install
 
-## Set Project Alias
+```bash
+# Clone the repository
+git clone https://github.com/amerryma/switch-craft ~/Projects/switch-craft
+cd ~/Projects/switch-craft
 
-The arguments are positional. Use quotes if you need to include spaces. If you need
-to skip an argument, use "false".
-
-```sh
-alias cdp='switch_craft <project-display-name> <project-name> <kubectx> <gcloud> <enable-venv> <aws> <azure>'
+# Install and build
+bun install
+bun run build:local
 ```
 
-To switch the default project dir of `~/Projects`, you can set the `SWITCH_CRAFT_PROJECTS_DIR` environment variable.
+### Shell Integration
 
-```sh
-export SWITCH_CRAFT_PROJECTS_DIR=~/my-projects
+Add to your shell profile:
 
-# or per alias
-
-alias cdp='SWITCH_CRAFT_PROJECTS_DIR=~/my-projects switch_craft <..args>'
+**Bash/Zsh:**
+```bash
+sc() { eval "$(~/Projects/switch-craft/dist/switch-craft go sh "$@")"; }
+scx() { eval "$(~/Projects/switch-craft/dist/switch-craft select sh)"; }
+scc() { eval "$(~/Projects/switch-craft/dist/switch-craft reset sh)"; }
+alias scl="~/Projects/switch-craft/dist/switch-craft list"
 ```
 
-## Supported Arguments
-
-### Project Display Name
-
-This is the name that will be displayed in the prompt. It can be anything you want.
-
-### Project Name
-
-This is the name of the directory that contains the project. It is relative to the `SWITCH_CRAFT_PROJECTS_DIR`
-environment variable.
-
-### Kubectx
-
-If you have [kubectx](https://github.com/ahmetb/kubectx/) installed, you can set the third argument to the name of the
-context you want to switch to a context name. You can list the available contexts with:
-
-```sh
-kubectx
+**Fish:**
+```fish
+function sc; ~/Projects/switch-craft/dist/switch-craft go fish $argv | source; end
+function scx; ~/Projects/switch-craft/dist/switch-craft select fish | source; end
+function scc; ~/Projects/switch-craft/dist/switch-craft reset fish | source; end
+alias scl="~/Projects/switch-craft/dist/switch-craft list"
 ```
 
-### Gcloud
-
-If you have [gcloud](https://cloud.google.com/sdk/gcloud) installed, you can set the fourth argument to the name of the
-gcloud configuration you want to switch to. You can list the available configurations with:
-
-```sh
-gcloud config configurations list
+**PowerShell:**
+```powershell
+function sc { (& ~/Projects/switch-craft/dist/switch-craft go pwsh $args) | Invoke-Expression }
+function scx { (& ~/Projects/switch-craft/dist/switch-craft select pwsh) | Invoke-Expression }
+function scc { (& ~/Projects/switch-craft/dist/switch-craft reset pwsh) | Invoke-Expression }
+function scl { & ~/Projects/switch-craft/dist/switch-craft list }
 ```
 
-### Virtualenv
+## Configuration
 
-If you have a virtualenv in your project, you can set the fifth argument to the relative path within the projects dir to
-automatically activate the virtualenv that is a sibling of the current project. This could be useful for running python
-applications while in a different directory.
+Create `~/.config/switch-craft/config.json`:
 
-This requires the zsh plugin called `autoswitch_virtualenv` which is
-found [here](https://github.com/MichaelAquilina/zsh-autoswitch-virtualenv).
-
-### AWS
-
-If you have [aws](https://aws.amazon.com/cli/) installed, you can set the sixth argument to the name of the aws profile
-you want to switch to. You can list the available profiles with:
-
-```sh
-aws configure list-profiles
+```json
+{
+  "projectsDir": "/home/user/projects",
+  "icons": {
+    "k8s": "☸️",
+    "gcp": "☁️",
+    "aws": "󰸏",
+    "venv": ""
+  },
+  "projects": [
+    {
+      "name": "acme",
+      "path": "clients/acme",
+      "kubectx": "acme-prod",
+      "aws": "acme-prod"
+    },
+    {
+      "name": "nexus",
+      "path": "clients/nexus",
+      "gcloud": "nexus-main"
+    },
+    {
+      "name": "internal",
+      "path": "internal/tools"
+    }
+  ]
+}
 ```
 
-### Azure
+### Custom Icons
 
-If you have [az](https://learn.microsoft.com/en-us/cli/azure/) installed, you can set the seventh argument to the name
-of the azure profile you want to switch to. You can list the available profiles with:
+The optional `icons` field allows you to customize the display labels for different service types. Icons will be shown in the interactive selector alongside the text labels. If not specified, only text labels (e.g., `k8s:`, `gcp:`) are shown.
 
-```sh
-az account list --output table
+### Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `SWITCH_CRAFT_CONFIG` | Path to config file (default: `~/.config/switch-craft/config.json`) |
+| `SWITCH_CRAFT_PROJECTS_DIR` | Override base projects directory |
+
+## Usage
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `sc <project>` | Switch to project with full environment setup |
+| `scx` | Interactive fuzzy project selector |
+| `scc` | Reset/clear environment and go to projects dir |
+| `scl` | List all configured projects |
+
+### Interactive Controls
+
+| Key | Action |
+|-----|--------|
+| `↑/↓` | Navigate project list |
+| `Enter` | Select project |
+| `Ctrl+O` | Toggle command preview |
+| `Esc` | Cancel |
+
+### Examples
+
+```bash
+# Switch to a project (fuzzy matching works!)
+sc acme
+sc nex    # matches "nexus"
+
+# Interactive selection
+scx
+
+# Reset environment
+scc
+
+# List projects
+scl
 ```
 
-## Additional Dependencies
+### Project Properties
 
-### figlet & lolcat
+| Property | Description |
+|----------|-------------|
+| `name` | Project identifier (used for fuzzy search) |
+| `path` | Directory path (relative to projectsDir or absolute) |
+| `kubectx` | Kubernetes context to activate |
+| `gcloud` | Google Cloud configuration name |
+| `aws` | AWS profile name |
+| `azure` | Azure account |
+| `venv` | Python virtualenv path to activate |
+| `env` | Custom environment variables to export |
 
-For more fun, you can install [figlet](http://www.figlet.org/) and [lolcat](https://github.com/busyloop/lolcat)
+## CLI Reference
 
-You will need to install `JS Stick Letters` font.
+```
+switch-craft <command> [options] [args]
 
-```sh
-sudo curl -o /usr/share/figlet/JS\ Stick\ Letters.flf https://raw.githubusercontent.com/xero/figlet-fonts/master/JS%20Stick%20Letters.flf
+Commands:
+  go <shell> [name]    Switch to project (interactive if no name)
+  reset <shell>        Reset environment and go to projects dir
+  path [name]          Print project path (interactive if no name)
+  list                 List all configured projects
+  select <shell>       Interactive fuzzy project selector
+
+Shells:
+  sh      Bash/Zsh compatible output
+  fish    Fish shell output
+  pwsh    PowerShell output
+
+Options:
+  --no-env       Skip environment variable exports
+  -h, --help     Show help
+  -v, --version  Show version
 ```
 
-![clean](img/clean.png)
+## Recommended Tools
 
-### Spaceship Prompt
+- [Spaceship Prompt](https://github.com/spaceship-prompt/spaceship-prompt) - Shows cloud/k8s context in prompt
+- [kubectx](https://github.com/ahmetb/kubectx) - Kubernetes context switcher
+- [gcloud CLI](https://cloud.google.com/sdk/gcloud) - Google Cloud SDK
+- [AWS CLI](https://aws.amazon.com/cli/) - AWS command line interface
 
-This plugin works well with the [Spaceship Prompt](https://github.com/spaceship-prompt/spaceship-prompt)
-as it shows the different components in the prompt.
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and how to generate the demo GIF.
+
+## License
+
+MIT

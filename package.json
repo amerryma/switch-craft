@@ -1,0 +1,62 @@
+{
+  "name": "switch-craft",
+  "version": "2.0.0",
+  "description": "Cross-shell CLI tool for switching between development projects with environment management",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "switch-craft": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "bun build ./src/cli.tsx --outdir ./dist --target node",
+    "build:bin": "bun run build:linux && bun run build:macos && bun run build:windows",
+    "build:linux": "bun build --compile --target=bun-linux-x64 ./src/cli.tsx --outfile dist/switch-craft-linux",
+    "build:linux-arm": "bun build --compile --target=bun-linux-arm64 ./src/cli.tsx --outfile dist/switch-craft-linux-arm64",
+    "build:macos": "bun build --compile --target=bun-darwin-x64 ./src/cli.tsx --outfile dist/switch-craft-macos",
+    "build:macos-arm": "bun build --compile --target=bun-darwin-arm64 ./src/cli.tsx --outfile dist/switch-craft-macos-arm64",
+    "build:windows": "bun build --compile --target=bun-windows-x64 ./src/cli.tsx --outfile dist/switch-craft-win.exe",
+    "build:local": "bun build --compile ./src/cli.tsx --outfile dist/switch-craft",
+    "dev": "bun --watch ./src/cli.tsx",
+    "start": "bun ./src/cli.tsx",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "format:check": "prettier --check src/"
+  },
+  "keywords": [
+    "cli",
+    "shell",
+    "project",
+    "switcher",
+    "developer",
+    "productivity",
+    "fuzzy",
+    "search"
+  ],
+  "author": "Aaron Merryman",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amerryma/switch-craft"
+  },
+  "dependencies": {
+    "fuse.js": "^7.0.0",
+    "ink": "^5.1.0",
+    "ink-text-input": "^6.0.0",
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@types/bun": "^1.1.0",
+    "@types/react": "^18.3.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.7.4",
+    "typescript": "^5.3.0",
+    "typescript-eslint": "^8.50.0"
+  }
+}
