@@ -39,7 +39,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/amerryman/switch-craft"
+    "url": "https://github.com/amerryma/switch-craft"
   },
   "dependencies": {
     "fuse.js": "^7.0.0",

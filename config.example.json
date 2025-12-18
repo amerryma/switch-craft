@@ -1,50 +1,118 @@
 {
-  "projectsDir": "/home/aaron/src",
+  "projectsDir": "/home/dev/projects",
   "icons": {
     "k8s": "☸️",
     "gcp": "☁️",
     "aws": "󰸏",
     "azure": "󰠅",
-    "venv": "",
-    "path": ""
+    "venv": ""
   },
   "projects": [
     {
-      "name": "web",
-      "path": "company/web",
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "kubectx": "dev-cluster",
-      "gcloud": "dev",
-      "aws": "dev"
+      "name": "acme",
+      "path": "clients/acme",
+      "kubectx": "acme-prod",
+      "aws": "acme-prod"
     },
     {
-      "name": "api",
-      "path": "company/api",
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "api:*"
-      },
-      "kubectx": "dev-cluster"
+      "name": "nexus",
+      "path": "clients/nexus",
+      "kubectx": "nexus-staging",
+      "gcloud": "nexus-main",
+      "aws": "nexus"
     },
     {
-      "name": "mobile",
-      "path": "company/mobile-app",
-      "env": {
-        "REACT_NATIVE_PACKAGER_HOSTNAME": "localhost"
-      }
+      "name": "titan",
+      "path": "clients/titan",
+      "kubectx": "titan-prod",
+      "aws": "titan-prod",
+      "venv": "/home/dev/.venvs/titan"
     },
     {
-      "name": "infra",
-      "path": "company/infrastructure",
-      "aws": "prod",
-      "gcloud": "prod"
+      "name": "horizon",
+      "path": "clients/horizon",
+      "gcloud": "horizon"
     },
     {
-      "name": "scripts",
-      "path": "personal/scripts",
-      "venv": "/home/aaron/.venvs/scripts"
+      "name": "stellar",
+      "path": "clients/stellar",
+      "aws": "stellar"
+    },
+    {
+      "name": "pulse",
+      "path": "clients/pulse",
+      "kubectx": "pulse-staging"
+    },
+    {
+      "name": "forge",
+      "path": "clients/forge",
+      "kubectx": "forge-prod",
+      "aws": "forge-prod"
+    },
+    {
+      "name": "ember",
+      "path": "clients/ember",
+      "azure": "ember-prod"
+    },
+    {
+      "name": "aurora",
+      "path": "clients/aurora"
+    },
+    {
+      "name": "vertex",
+      "path": "clients/vertex",
+      "aws": "vertex-dev"
+    },
+    {
+      "name": "catalyst",
+      "path": "clients/catalyst",
+      "venv": "/home/dev/.venvs/catalyst"
+    },
+    {
+      "name": "pinnacle",
+      "path": "clients/pinnacle",
+      "kubectx": "pinnacle-prod"
+    },
+    {
+      "name": "zenith",
+      "path": "clients/zenith",
+      "kubectx": "zenith-prod",
+      "gcloud": "zenith",
+      "aws": "zenith"
+    },
+    {
+      "name": "radiant",
+      "path": "clients/radiant"
+    },
+    {
+      "name": "summit",
+      "path": "clients/summit",
+      "gcloud": "summit"
+    },
+    {
+      "name": "onyx",
+      "path": "clients/onyx",
+      "aws": "onyx",
+      "venv": "/home/dev/.venvs/onyx"
+    },
+    {
+      "name": "internal-tools",
+      "path": "internal/tools"
+    },
+    {
+      "name": "devops",
+      "path": "internal/devops",
+      "aws": "master"
+    },
+    {
+      "name": "ml-pipeline",
+      "path": "internal/ml",
+      "gcloud": "ml-research",
+      "venv": "/home/dev/.venvs/ml"
+    },
+    {
+      "name": "sandbox",
+      "path": "sandbox"
     }
   ]
 }

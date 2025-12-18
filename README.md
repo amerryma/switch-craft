@@ -11,14 +11,14 @@ A cross-shell project switcher with environment management. Effortlessly navigat
 - **Cross-shell support** - Works with Bash, Zsh, Fish, and PowerShell
 - **Interactive selector** - Built-in fuzzy finder for project selection
 - **Colorful output** - Rainbow ASCII banners and colored info tables
+- **Command preview** - Press Ctrl+O to preview commands before switching
 - **Reset command** - Clear all environment settings with one command
 
 ## Installation
 
 ### Prerequisites
 
-- Node.js 18+
-- yarn or npm
+- [Bun](https://bun.sh/) runtime
 
 ### Quick Install
 
@@ -28,8 +28,8 @@ git clone https://github.com/amerryma/switch-craft ~/Projects/switch-craft
 cd ~/Projects/switch-craft
 
 # Install and build
-yarn install
-yarn build
+bun install
+bun run build:local
 ```
 
 ### Shell Integration
@@ -38,26 +38,26 @@ Add to your shell profile:
 
 **Bash/Zsh:**
 ```bash
-sc() { eval "$(node ~/Projects/switch-craft/dist/cli.js go sh "$@")"; }
-scx() { eval "$(node ~/Projects/switch-craft/dist/cli.js select sh)"; }
-scc() { eval "$(node ~/Projects/switch-craft/dist/cli.js reset sh)"; }
-alias scl="node ~/Projects/switch-craft/dist/cli.js list"
+sc() { eval "$(~/Projects/switch-craft/dist/switch-craft go sh "$@")"; }
+scx() { eval "$(~/Projects/switch-craft/dist/switch-craft select sh)"; }
+scc() { eval "$(~/Projects/switch-craft/dist/switch-craft reset sh)"; }
+alias scl="~/Projects/switch-craft/dist/switch-craft list"
 ```
 
 **Fish:**
 ```fish
-function sc; node ~/Projects/switch-craft/dist/cli.js go fish $argv | source; end
-function scx; node ~/Projects/switch-craft/dist/cli.js select fish | source; end
-function scc; node ~/Projects/switch-craft/dist/cli.js reset fish | source; end
-function scl; node ~/Projects/switch-craft/dist/cli.js list; end
+function sc; ~/Projects/switch-craft/dist/switch-craft go fish $argv | source; end
+function scx; ~/Projects/switch-craft/dist/switch-craft select fish | source; end
+function scc; ~/Projects/switch-craft/dist/switch-craft reset fish | source; end
+alias scl="~/Projects/switch-craft/dist/switch-craft list"
 ```
 
 **PowerShell:**
 ```powershell
-function sc { (& node ~/Projects/switch-craft/dist/cli.js go pwsh $args) | Invoke-Expression }
-function scx { (& node ~/Projects/switch-craft/dist/cli.js select pwsh) | Invoke-Expression }
-function scc { (& node ~/Projects/switch-craft/dist/cli.js reset pwsh) | Invoke-Expression }
-function scl { & node ~/Projects/switch-craft/dist/cli.js list }
+function sc { (& ~/Projects/switch-craft/dist/switch-craft go pwsh $args) | Invoke-Expression }
+function scx { (& ~/Projects/switch-craft/dist/switch-craft select pwsh) | Invoke-Expression }
+function scc { (& ~/Projects/switch-craft/dist/switch-craft reset pwsh) | Invoke-Expression }
+function scl { & ~/Projects/switch-craft/dist/switch-craft list }
 ```
 
 ## Configuration
@@ -66,33 +66,28 @@ Create `~/.config/switch-craft/config.json`:
 
 ```json
 {
-  "projectsDir": "/home/user/Projects",
+  "projectsDir": "/home/user/projects",
   "icons": {
     "k8s": "☸️",
     "gcp": "☁️",
     "aws": "󰸏",
-    "azure": "󰠅",
-    "venv": "",
-    "path": ""
+    "venv": ""
   },
   "projects": [
     {
-      "name": "web",
-      "path": "company/web",
-      "env": { "NODE_ENV": "development" },
-      "kubectx": "dev-cluster",
-      "gcloud": "dev",
-      "aws": "dev"
+      "name": "acme",
+      "path": "clients/acme",
+      "kubectx": "acme-prod",
+      "aws": "acme-prod"
     },
     {
-      "name": "api",
-      "path": "company/api",
-      "kubectx": "dev-cluster"
+      "name": "nexus",
+      "path": "clients/nexus",
+      "gcloud": "nexus-main"
     },
     {
-      "name": "scripts",
-      "path": "personal/scripts",
-      "venv": "/home/user/.venvs/scripts"
+      "name": "internal",
+      "path": "internal/tools"
     }
   ]
 }
@@ -120,12 +115,21 @@ The optional `icons` field allows you to customize the display labels for differ
 | `scc` | Reset/clear environment and go to projects dir |
 | `scl` | List all configured projects |
 
+### Interactive Controls
+
+| Key | Action |
+|-----|--------|
+| `↑/↓` | Navigate project list |
+| `Enter` | Select project |
+| `Ctrl+O` | Toggle command preview |
+| `Esc` | Cancel |
+
 ### Examples
 
 ```bash
 # Switch to a project (fuzzy matching works!)
-sc web
-sc serv    # matches "servertron"
+sc acme
+sc nex    # matches "nexus"
 
 # Interactive selection
 scx
@@ -146,7 +150,7 @@ scl
 | `kubectx` | Kubernetes context to activate |
 | `gcloud` | Google Cloud configuration name |
 | `aws` | AWS profile name |
-| `azure` | Azure account (placeholder) |
+| `azure` | Azure account |
 | `venv` | Python virtualenv path to activate |
 | `env` | Custom environment variables to export |
 
@@ -156,9 +160,9 @@ scl
 switch-craft <command> [options] [args]
 
 Commands:
-  go <shell> <name>    Switch to project with full env setup
+  go <shell> [name]    Switch to project (interactive if no name)
   reset <shell>        Reset environment and go to projects dir
-  path <name>          Print the absolute path of a project
+  path [name]          Print project path (interactive if no name)
   list                 List all configured projects
   select <shell>       Interactive fuzzy project selector
 
@@ -168,19 +172,9 @@ Shells:
   pwsh    PowerShell output
 
 Options:
-  --no-env     Skip environment variable exports
-  -h, --help   Show help
+  --no-env       Skip environment variable exports
+  -h, --help     Show help
   -v, --version  Show version
-```
-
-## Legacy Support
-
-If you're migrating from the old zsh-only version, you can create aliases for your old commands:
-
-```bash
-alias cdf="sc fathom"
-alias cds="sc servertron"
-alias cdx="scc"
 ```
 
 ## Recommended Tools
@@ -189,6 +183,10 @@ alias cdx="scc"
 - [kubectx](https://github.com/ahmetb/kubectx) - Kubernetes context switcher
 - [gcloud CLI](https://cloud.google.com/sdk/gcloud) - Google Cloud SDK
 - [AWS CLI](https://aws.amazon.com/cli/) - AWS command line interface
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and how to generate the demo GIF.
 
 ## License
 
