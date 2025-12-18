@@ -1,0 +1,50 @@
+{
+  "projectsDir": "/home/aaron/src",
+  "icons": {
+    "k8s": "☸️",
+    "gcp": "☁️",
+    "aws": "󰸏",
+    "azure": "󰠅",
+    "venv": "",
+    "path": ""
+  },
+  "projects": [
+    {
+      "name": "web",
+      "path": "company/web",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "kubectx": "dev-cluster",
+      "gcloud": "dev",
+      "aws": "dev"
+    },
+    {
+      "name": "api",
+      "path": "company/api",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "api:*"
+      },
+      "kubectx": "dev-cluster"
+    },
+    {
+      "name": "mobile",
+      "path": "company/mobile-app",
+      "env": {
+        "REACT_NATIVE_PACKAGER_HOSTNAME": "localhost"
+      }
+    },
+    {
+      "name": "infra",
+      "path": "company/infrastructure",
+      "aws": "prod",
+      "gcloud": "prod"
+    },
+    {
+      "name": "scripts",
+      "path": "personal/scripts",
+      "venv": "/home/aaron/.venvs/scripts"
+    }
+  ]
+}
